@@ -7,6 +7,16 @@ namespace Autonomus.Business
 {
     public class PublicacaoPrestadorBO
     {
+
+        public List<PublicacaoPrestador> ObterPublicacaoPrestador()
+        {
+            using var contexto = new Context();
+            var resultado = contexto.Set<PublicacaoPrestador>()
+                .FromSqlRaw("EXEC sp_ObterPublicacaoPrestador");
+
+            return resultado.ToList();
+        }
+
         public decimal InserirPublicacaoPrestador(PublicacaoPrestador publicacao)
         {
             using Context contexto = new Context();
@@ -63,5 +73,17 @@ namespace Autonomus.Business
                 parametros
             );
         }
+
+        public void DeletarPublicacaoPrestador(int IdPublicacaoPrestador)
+        {
+            var contexto = new Context();
+            var parametros = new[]
+            {
+                new SqlParameter("@IdPublicacaoPrestador", IdPublicacaoPrestador)
+            };
+
+            contexto.Database.ExecuteSqlRaw("EXEC dboDeletarPublicacaoPrestador @IdPublicacaoPrestador ", parametros);
+        }
     }
 }
+

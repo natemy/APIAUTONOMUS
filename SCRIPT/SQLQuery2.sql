@@ -149,11 +149,12 @@ GO
 
 CREATE TABLE Agenda_Cliente(
     Id_agenda_cliente INT IDENTITY PRIMARY KEY,
-    IdCliente INT NULL REFERENCES Cliente(id_cliente),
+    Id_cliente INT NULL REFERENCES Cliente(id_cliente),
     DiaSemana INT NOT NULL,
     Horario TIME NOT NULL
 );
 GO
+
 
 CREATE TABLE Agenda_Prestador(
 	id_agenda_prestador INT PRIMARY KEY iDENTITY,
@@ -162,6 +163,21 @@ CREATE TABLE Agenda_Prestador(
     Horario TIME NOT NULL
 )
 GO
+
+CREATE TABLE Agendamento (
+    id_agendamento INT IDENTITY PRIMARY KEY,
+    id_prestador INT NOT NULL,
+    id_cliente INT NOT NULL,
+    diasemana TINYINT NOT NULL,
+    horario VARCHAR(10) NOT NULL,
+    CONSTRAINT FK_Agendamento_Prestador FOREIGN KEY (id_prestador)
+    REFERENCES Prestador(id_prestador),
+    CONSTRAINT FK_Agendamento_Cliente FOREIGN KEY (id_cliente)
+    REFERENCES Cliente(id_cliente)
+);
+GO
+
+
 
 CREATE TABLE Chat (
     id_chat INT PRIMARY KEY IDENTITY,
@@ -719,10 +735,10 @@ END;
 
 
 
-/* COMENTÁRIOS CLIENTES*/
+/* COMENTÁRIOS(AVALICAÇÕES) CLIENTES*/
 
 
-/* COMENTÁRIOS PRESTADORES*/
+/* COMENTÁRIOS (AVALICAÇÕES) PRESTADORES*/
 
 
 
@@ -842,3 +858,38 @@ SELECT * FROM Prestador WHERE id_prestador = @IdPrestador
 END
 
 
+
+/*AGENDA*/
+/*MATCH*/
+CREATE PROCEDURE SP_BuscarHorariosCompativeis
+    @ClienteID INT,
+    @PrestadorID INT
+AS
+BEGIN    
+    SELECT
+        AC.diasemana,
+        AC.horario
+    FROM
+        Agenda_Cliente AC
+    INNER JOIN
+        Agenda_Prestador AP ON 
+            AC.diasemana = AP.diasemana  
+            AND AC.horario = AP.horario  
+    WHERE
+        AC.id_cliente = @ClienteID
+        AND AP.id_prestador = @PrestadorID
+    ORDER BY
+        AC.diasemana, 
+        AC.horario;
+
+END
+GO
+
+EXEC SP_BuscarHorariosCompativeis 
+    @ClienteID = 1,
+    @PrestadorID = 1;
+GO
+
+/*AGENDA PRESTADOR*/
+
+/*AGENDA CLIENTE*/

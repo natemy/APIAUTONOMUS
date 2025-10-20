@@ -7,6 +7,17 @@ namespace Autonomus.Business
 {
     public class PublicacaoPrestadorQualidadesBO
     {
+
+        public List<PublicacaoPrestadorQualidades> ObterQualidadesPrestador()
+        {
+            using var contexto = new Context();
+            var resultado = contexto.Set<PublicacaoPrestadorQualidades>()
+                .FromSqlRaw("EXEC sp_ObterQualidadesPrestador");
+
+            return resultado.ToList();
+        }
+
+
         public decimal InserirQualidadesPrestador(PublicacaoPrestadorQualidades qualidade)
         {
             using Context contexto = new Context();
@@ -24,6 +35,17 @@ namespace Autonomus.Business
                 .FirstOrDefault();
 
             return resultado?.NovoIdPrestadorQualidade ?? 0;
+        }
+
+        public void DeletarQualidadesPrestador(int IdQualidadePrestador)
+        {
+            var contexto = new Context();
+            var parametros = new[]
+            {
+                new SqlParameter("@IdQualidade", IdQualidadePrestador)
+            };
+
+            contexto.Database.ExecuteSqlRaw("EXEC sp_DeletarQualidadePrestador @IdQualidade ", parametros);
         }
     }
 }
