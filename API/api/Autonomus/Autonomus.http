@@ -1,0 +1,6 @@
+@Autonomus_HostAddress = http://localhost:5232
+
+GET {{Autonomus_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
