@@ -8,26 +8,26 @@ namespace Autonomus.Business
     public class PrestadorBO
     {
 
-            public List<Prestador> ObterPrestador()
-            {
-                Context contexto = new Context();
-                var resultado = contexto.Prestador.FromSqlRaw("exec sp_SelecionarPrestador");
-                return resultado.ToList();
+        public List<Prestador> ObterPrestador()
+        {
+            Context contexto = new Context();
+            var resultado = contexto.Prestador.FromSqlRaw("exec sp_SelecionarPrestador");
+            return resultado.ToList();
 
-            }
+        }
 
-            public Prestador? ObterPrestadorPorId(int id)
-            {
-                Context contexto = new Context();
-                var parametro = new SqlParameter("@IdPrestador", id);
-                return contexto.Prestador
-                    .FromSqlRaw("exec sp_SelecionarPrestadorPorId @IdPrestador", parametro)
-                    .AsEnumerable()
-                    .FirstOrDefault();
-            }
+        public Prestador? ObterPrestadorPorId(int id)
+        {
+            Context contexto = new Context();
+            var parametro = new SqlParameter("@IdPrestador", id);
+            return contexto.Prestador
+                .FromSqlRaw("exec sp_SelecionarPrestadorPorId @IdPrestador", parametro)
+                .AsEnumerable()
+                .FirstOrDefault();
+        }
 
         public static decimal InserirPrestador(Prestador prestador)
-            {
+        {
             using Context contexto = new Context();
 
             var parametros = new[]
@@ -48,22 +48,22 @@ namespace Autonomus.Business
                 .AsEnumerable()
                 .FirstOrDefault();
 
-            return resultado?.NovoIdPrestador ?? 0; 
+            return resultado?.NovoIdPrestador ?? 0;
         }
 
-            public void DeletarPrestador(int idPrestador)
+        public void DeletarPrestador(int idPrestador)
+        {
+            var contexto = new Context();
+            var parametros = new[]
             {
-                var contexto = new Context();
-                var parametros = new[]
-                {
                 new SqlParameter("@IdPrestador", idPrestador)
             };
 
-                contexto.Database.ExecuteSqlRaw("EXEC dboDeletarPrestador @IdPrestador", parametros);
-            }
+            contexto.Database.ExecuteSqlRaw("EXEC dboDeletarPrestador @IdPrestador", parametros);
+        }
 
-            public static void AtualizarPrestador(Prestador prestador)
-            {
+        public static void AtualizarPrestador(Prestador prestador)
+        {
             using Context contexto = new Context();
 
             var parametros = new[]
@@ -85,8 +85,8 @@ namespace Autonomus.Business
             );
         }
 
-             public List<Prestador> ObterPrestadorPorRating(decimal avaliacaominima, decimal avaliacaomaxima)
-             {
+        public List<Prestador> ObterPrestadorPorRating(decimal avaliacaominima, decimal avaliacaomaxima)
+        {
             Context contexto = new Context();
             var parametros = new[]
             {
@@ -94,7 +94,7 @@ namespace Autonomus.Business
             new SqlParameter("@MaxAvaliacao", avaliacaomaxima),
             };
 
-            
+
             var resultado = contexto.Prestador.FromSqlRaw("exec sp_FiltrarPrestadorAvaliacao @MinAvaliacao, @MaxAvaliacao", parametros).ToList();
 
             return resultado;
@@ -126,7 +126,9 @@ namespace Autonomus.Business
 
             return resultado;
         }
-        
+
+
+
     }
 }
 

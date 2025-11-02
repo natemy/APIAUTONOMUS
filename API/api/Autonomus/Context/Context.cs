@@ -53,6 +53,18 @@ namespace Autonomus.ContextNameSpace
         public decimal NovoIdPrestadorPublicacao { get; set; }
     }
 
+    public class NovoAgendaPrestadorResultado
+    {
+        [Key]
+        public decimal NovoIdAgendaPrestador { get; set; }
+    }
+
+    public class NovoAgendaClienteResultado
+    {
+        [Key]
+        public decimal NovoIdAgendaCliente { get; set; }
+    }
+
 
 
     public class Context : DbContext
@@ -84,9 +96,14 @@ namespace Autonomus.ContextNameSpace
         [NotMapped]
         public DbSet<NovoPublicacaoPrestadorResultado> NovoPublicacaoPrestadorResultados { get; set; }
 
-
         [NotMapped]
         public DbSet<NovoAbordagemPrestadorResultado> NovoAbordagemPrestadorResultados { get; set; }
+
+        [NotMapped]
+        public DbSet<NovoAgendaPrestadorResultado> NovoAgendaPrestadorResultados { get; set; }
+        [NotMapped]
+        public DbSet<NovoAgendaClienteResultado> NovoAgendaClienteResultados { get; set; }
+
 
 
         public DbSet<PublicacaoPrestadorSubcategoria> PublicacaoPrestadorSubcategoria { get; set; }
@@ -100,6 +117,10 @@ namespace Autonomus.ContextNameSpace
         public DbSet<PublicacaoPrestadorAbordagem> PublicacaoPrestadorAbordagem { get; set; }
 
         public DbSet<PublicacaoPrestador> PublicacaoPrestador { get; set; }
+
+
+        public DbSet<AgendaPrestador> AgendaPrestador { get; set; }
+        public DbSet<AgendaCliente> AgendaCliente { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

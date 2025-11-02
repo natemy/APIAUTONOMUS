@@ -6,7 +6,7 @@ namespace Autonomus.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-      public class PrestadorController: ControllerBase
+     public class PrestadorController: ControllerBase
         {
 
         [HttpGet(Name = "ObterPrestador")]
@@ -37,6 +37,6 @@ namespace Autonomus.Controllers
 
 
 
-      }
+    }
 }
 
